@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    html, body {
+      width: 340px;
+      margin: 0;
+      padding: 0;
+      /* Vibrant gradient background that shows through the glass container */
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+    }
+
+    /* Hide scrollbars to maintain the clean 'widget' look of the popup */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    * {
+      box-sizing: border-box;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .glass-container {
+      /* The main frosted glass panel */
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .header-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 20px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      color: #333;
+    }
+
+    button:hover, button.active {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Circular button for the refresh icon */
+    #refreshBtn {
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .summary-cards {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+
+    .card {
+      flex: 1;
+      padding: 12px 5px;
+      border-radius: 16px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .card span {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card .time {
+      font-size: 16px;
+      margin-top: 5px;
+      font-weight: 700;
+    }
+
+    /* Color coding for different productivity categories */
+    .productive { color: #2e7d32; }
+    .unproductive { color: #c62828; }
+    .neutral { color: #455a64; }
+
+    .chart-container {
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.5);
+      position: relative;
+      height: 200px; /* Fixed height for Chart.js responsiveness */
+      width: 100%;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 10px 0;
+      text-align: center;
+    }
+
+    .most-used-container {
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      padding: 10px;
+      margin-bottom: 5px;
+      max-height: 160px;
+      overflow-y: auto;
+    }
+
+    .site-item {
+      margin: 5px 0;
+      padding: 10px 15px;
+      background: rgba(255, 255, 255, 0.65);
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+    }
+
+    .top-site {
+      font-weight: bold;
+    }
+  </style>
+  <script src="chart.js"></script>
+</head>
+<body>
+  <div class="glass-container">
+    <div class="header-controls">
+      <h2 id="viewTitle">Today's Report</h2>
+      <div class="btn-group">
+        <button id="toggleViewBtn">Weekly</button>
+        <button id="refreshBtn">&#8635;</button>
+      </div>
+    </div>
+    
+    <div class="summary-cards">
+      <div class="card productive">
+        <span>Productive</span>
+        <div class="time" id="prod-time">0m</div>
+      </div>
+      <div class="card unproductive">
+        <span>Unproductive</span>
+        <div class="time" id="unprod-time">0m</div>
+      </div>
+      <div class="card neutral">
+        <span>Neutral</span>
+        <div class="time" id="neu-time">0m</div>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="productivityChart"></canvas>
+    </div>
+    
+    <div class="section-title">Most Used Sites</div>
+    <div id="mostUsedList" class="most-used-container"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
